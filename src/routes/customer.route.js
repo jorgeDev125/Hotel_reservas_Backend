@@ -21,8 +21,13 @@ router.post(
     .withMessage("El apellido es obligatorio")
     .isLength({ min: 2 })
     .withMessage("El apellido es muy corto, mínimo 2 caracteres"),
-  body("email").trim().isEmail().withMessage("El email debe ser válido"),
+  body("email")
+    .optional({ nullable: true })
+    .trim()
+    .isEmail()
+    .withMessage("El email debe ser válido"),
   body("telefono")
+    .optional({ nullable: true })
     .trim()
     .isNumeric()
     .withMessage("El telefono debe ser un número"),
