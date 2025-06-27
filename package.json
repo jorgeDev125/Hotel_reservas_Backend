@@ -1,0 +1,19 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Control de Reservas para Hotel - BackEnd",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --exec node ./src/index.js"
+  },
+  "author": "Oscar Vargas y Jorge Vargas",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1"
+  }
+}
