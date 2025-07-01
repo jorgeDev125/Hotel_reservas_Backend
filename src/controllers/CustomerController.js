@@ -78,4 +78,26 @@ export class CustomerController {
       res.status(500).json({ error: "Hubo un error" });
     }
   };
+  static updateCustomer = async (req, res) => {
+    const { cedula } = req.params;
+    const query = "UPDATE clientes SET cedula = ?, nombre = ?, apellido = ?, email = ?, telefono = ? WHERE cedula = ?";
+    try {
+      const customer = await new Promise((resolve, reject) => {
+        connection.query(query, [req.body.cedula, req.body.nombre, req.body.apellido, req.body.email, req.body.telefono, cedula], (err, results) => {
+          if (err) return reject(err);
+          resolve(results);
+        });
+      });
+      // Check if the customer exists
+      if (customer.length === 0) {
+        const error = new Error("El Cliente no existe");
+        res.status(409).json({ error: error.message });
+        return;
+      }
+      // Return the customer data
+      res.status(201).json({ message: "Cliente actualizado correctamente" });
+    } catch (error) {
+      res.status(500).json({ error: "Hubo un error al crear el cliente" });
+    }
+  };
 }
