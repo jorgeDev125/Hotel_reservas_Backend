@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "hotel_backend",
   "version": "1.0.0",
   "description": "Control de Reservas para Hotel - BackEnd",
   "main": "index.js",
@@ -13,6 +13,7 @@
     "nodemon": "^3.1.10"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
     "mysql2": "^3.14.1"
