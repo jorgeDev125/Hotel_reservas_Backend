@@ -2,7 +2,8 @@ import express from "express";
 
 import cors from "cors";
 
-import customersRoutes from "./routes/customer.route.js";
+import customerRoutes from "./routes/customer.route.js";
+import roomRoutes from "./routes/room.route.js";
 
 
 
@@ -16,7 +17,8 @@ app.use(cors());
 
 app.use(express.json());
 
-app.use("/clientes", customersRoutes);
+app.use("/clientes", customerRoutes);
+app.use("/habitaciones", roomRoutes);
 //app.use("/reservas", reservesRoutes);
 
 

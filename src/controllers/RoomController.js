@@ -1,8 +1,10 @@
 import { connection } from "../config/db.js";
 
-export class CustomerController {
+export class RoomController {
 
-  static createCustomer = async (req, res) => {
+
+
+  /* static createCustomer = async (req, res) => {
     const { cedula, nombre, apellido, email, telefono } = req.body;
     const query = "INSERT INTO clientes (cedula, nombre, apellido, email, telefono) VALUES (?, ?, ?, ?, ?)";
     const values = [cedula, nombre, apellido, email, telefono];
@@ -33,30 +35,30 @@ export class CustomerController {
     } catch (error) {
       res.status(500).json({ error: "Hubo un error al crear el cliente" });
     }
-  };
+  }; */
 
-  static getCustomers = async (req, res) => {
-    const query = "SELECT * FROM clientes ORDER BY nombre ASC";
+  static getRooms = async (req, res) => {
+    const query = "SELECT * FROM habitacion ORDER BY numero ASC";
     try {
-      const customers = await new Promise((resolve, reject) => {
+      const rooms = await new Promise((resolve, reject) => {
         connection.query(query, (err, results) => {
           if (err) return reject(err);
           resolve(results);
         });
       });
-      // Check if there are no customers
-      if (customers.length === 0) {
-        res.status(200).json({ message: "No hay clientes registrados" });
+      // Check if there are no rooms
+      if (rooms.length === 0) {
+        res.status(200).json({ message: "No hay habitaciones registradas" });
         return;
       }
-      // Return the list of customers
-      res.status(200).json(customers);
+      // Return the list of rooms
+      res.status(200).json(rooms);
     } catch (error) {
       res.status(500).json({ error: "Hubo un error" });
     }
   };
 
-  static getUCustomerByCedula = async (req, res) => {
+ /*  static getUCustomerByCedula = async (req, res) => {
     const { cedula } = req.params;
     const query = "SELECT * FROM clientes WHERE cedula = ?";
     try {
@@ -77,8 +79,9 @@ export class CustomerController {
     } catch (error) {
       res.status(500).json({ error: "Hubo un error" });
     }
-  };
-  static updateCustomer = async (req, res) => {
+  }; */
+
+  /* static updateCustomer = async (req, res) => {
     const { cedula } = req.params;
     const query = "UPDATE clientes SET cedula = ?, nombre = ?, apellido = ?, email = ?, telefono = ? WHERE cedula = ?";
     try {
@@ -99,5 +102,5 @@ export class CustomerController {
     } catch (error) {
       res.status(500).json({ error: "Hubo un error al crear el cliente" });
     }
-  };
+  }; */
 }
