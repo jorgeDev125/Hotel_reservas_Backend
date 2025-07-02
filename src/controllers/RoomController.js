@@ -38,7 +38,7 @@ export class RoomController {
   }; */
 
   static getRooms = async (req, res) => {
-    const query = "SELECT * FROM habitacion ORDER BY numero ASC";
+    const query = `SELECT * FROM get_rooms`;
     try {
       const rooms = await new Promise((resolve, reject) => {
         connection.query(query, (err, results) => {
