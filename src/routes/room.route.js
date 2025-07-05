@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { handleInputErrors } from "../middleware/validation.js";
-//import { body, param } from "express-validator";
+import { param } from "express-validator";
 import { RoomController } from "../controllers/RoomController.js";
 
 const router = Router();
@@ -35,17 +35,23 @@ const router = Router();
   RoomController.createCustomer
 ); */
 
-// Route to get all customers
+// Route to get all rooms
 router.get("/", handleInputErrors, RoomController.getRooms);
 
-// Route to get a customer by cedula
-/* router.get(
-  "/:cedula",
-  param("cedula").isNumeric().withMessage("Cédula no válida"),
+
+router.get(
+  "/:habitacionId",
+  param("habitacionId").isNumeric().withMessage("Habitación no válida"),
   handleInputErrors,
-  RoomController.getUCustomerByCedula
+  RoomController.getRoomById
 );
 
+// Route to get available rooms
+router.get("/estado/:estadoId", 
+  param("estadoId").isNumeric().withMessage("El estadoId debe ser un número"),
+  handleInputErrors, RoomController.getRoomsByStatus);
+
+/* 
 router.put(
   "/:cedula",
   param("cedula").isNumeric().withMessage("Cédula no válida"),
