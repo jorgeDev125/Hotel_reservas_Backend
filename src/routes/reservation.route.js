@@ -8,19 +8,19 @@ const router = Router();
 // Route to create a new customer
 router.post(
   "/",
-  body("habitacion_id")
+  body("habitacionId")
     .trim()
     .isNumeric()
     .withMessage("Id de Habitación debe ser un número")
     .notEmpty()
     .withMessage("Id de Habitación es obligatorio"),
-  body("numero_noches")
+  body("numeroNoches")
     .trim()
     .isNumeric()
     .withMessage("El número de noches debe ser un número")
     .notEmpty()
     .withMessage("El número de noches es obligatorio"),
-  body("cliente_id")
+  body("clienteId")
     .trim()
     .isNumeric()
     .withMessage("Id de cliente debe ser un número")

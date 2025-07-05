@@ -56,7 +56,7 @@ export class CustomerController {
     }
   };
 
-  static getUCustomerByCedula = async (req, res) => {
+  static getCustomerByCedula = async (req, res) => {
     const { cedula } = req.params;
     const query = "SELECT * FROM clientes WHERE cedula = ?";
     try {

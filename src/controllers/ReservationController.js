@@ -3,9 +3,9 @@ import { connection } from "../config/db.js";
 export class ReservationController {
 
   static createReservation = async (req, res) => {
-    const { habitacion_id, numero_noches, cliente_id } = req.body;
-    const query = "INSERT INTO `reserva`(`habitacion_id`, `numero_noches`, `cliente_id`) VALUES (?, ?, ?) "
-    const values = [habitacion_id, numero_noches, cliente_id];
+    const { habitacionId, numeroNoches, clienteId } = req.body;
+    const query = "INSERT INTO `reserva`(`habitacion_id`, `numero_noches`, `cliente_id`) VALUES (?, ?, ?)"
+    const values = [habitacionId, numeroNoches, clienteId];
     try {
      
       // Insert the new reservation into the database

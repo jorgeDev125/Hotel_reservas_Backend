@@ -43,7 +43,7 @@ router.get(
   "/:cedula",
   param("cedula").isNumeric().withMessage("Cédula no válida"),
   handleInputErrors,
-  CustomerController.getUCustomerByCedula
+  CustomerController.getCustomerByCedula
 );
 
 router.put(
