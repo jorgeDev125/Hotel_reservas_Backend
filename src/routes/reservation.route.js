@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { handleInputErrors } from "../middleware/validation.js";
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 import { ReservationController } from "../controllers/ReservationController.js";
 
 const router = Router();
@@ -33,42 +33,21 @@ router.post(
 // Route to get all customers
 router.get("/", handleInputErrors, ReservationController.getReservations);
 
-// Route to get a customer by cedula
-/* router.get(
-  "/:cedula",
-  param("cedula").isNumeric().withMessage("Cédula no válida"),
-  handleInputErrors,
-  ReservationController.getUCustomerByCedula
-);
+//Rout for select reservations grouped by status
+router.get("/estados", handleInputErrors, ReservationController.getReservationsGroupedByStatus)
 
-router.put(
-  "/:cedula",
-  param("cedula").isNumeric().withMessage("Cédula no válida"),
-  body("cedula").trim().isNumeric().withMessage("La cedula debe ser un número"),
-  body("nombre")
-    .trim()
-    .notEmpty()
-    .withMessage("El nombre es obligatorio")
-    .isLength({ min: 2 })
-    .withMessage("El nombre es muy corto, mínimo 2 caracteres"),
-  body("apellido")
-    .trim()
-    .notEmpty()
-    .withMessage("El apellido es obligatorio")
-    .isLength({ min: 2 })
-    .withMessage("El apellido es muy corto, mínimo 2 caracteres"),
-  body("email")
-    .optional({ nullable: true })
-    .trim()
-    .isEmail()
-    .withMessage("El email debe ser válido"),
-  body("telefono")
-    .optional({ nullable: true })
-    .trim()
-    .isNumeric()
-    .withMessage("El telefono debe ser un número"),
+// Route for update reservation status
+router.put("/:id/estado",
+  param("id").isNumeric().withMessage("Dato no válido"),
+  body("estadoId").trim().isNumeric().withMessage("El estadoId debe ser un número"),
   handleInputErrors,
-  ReservationController.updateCustomer
-); */
+  ReservationController.updateReservationStatus
+)
+
+//Route to get reservation by id
+router.get('/:id', 
+  param("id").isNumeric().withMessage("Dato no válido"),
+  handleInputErrors,
+  ReservationController.getReservationById);
 
 export default router;
