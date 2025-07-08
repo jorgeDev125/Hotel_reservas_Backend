@@ -145,4 +145,33 @@ export class RoomController {
       });
     }
   };
+
+  static setRoomsLimpiezaToDisponible = async (req, res) => {
+  const LIMPIEZA_ID = 4;
+  const DISPONIBLE_ID = 1;
+
+  const query = `
+    UPDATE habitacion
+    SET estado_id = ?
+    WHERE estado_id = ?
+  `;
+
+  try {
+    const result = await new Promise((resolve, reject) => {
+      connection.query(query, [DISPONIBLE_ID, LIMPIEZA_ID], (err, result) => {
+        if (err) return reject(err);
+        resolve(result);
+      });
+    });
+
+    res.status(200).json({
+      message: `Se actualizaron ${result.affectedRows} habitaciones de 'En Limpieza' a 'Disponible'.`
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Hubo un error al actualizar las habitaciones."
+    });
+  }
+};
+
 }

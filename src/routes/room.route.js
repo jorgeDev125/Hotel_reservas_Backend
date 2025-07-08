@@ -27,6 +27,12 @@ router.get(
   RoomController.getRoomsByStatus
 );
 
+//Route for change "En Limpieza" to "disponible" status
+router.put('/limpieza-a-disponible',
+  handleInputErrors, 
+  RoomController.setRoomsLimpiezaToDisponible);
+
+
 //Route to update room status
 router.put(
   "/:id/estado",
