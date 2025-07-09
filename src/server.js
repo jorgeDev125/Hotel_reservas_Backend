@@ -3,6 +3,8 @@ import cors from "cors";
 import customerRoutes from "./routes/customer.route.js";
 import roomRoutes from "./routes/room.route.js";
 import reservationRoutes from "./routes/reservation.route.js";
+import dotenv from "dotenv"
+dotenv.config()
 
 const app = express();
 
@@ -15,7 +17,7 @@ const corsOptions = {
         }
     }
 }
-app.use(cors/* (corsOptions) */);
+app.use(cors(corsOptions));
 
 app.use(express.json());
 

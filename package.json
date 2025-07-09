@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --exec node ./src/index.js",
-    "start": "node ./src/index.js"
+    "start": "node ./src/index.js",
+    "build": "d"
   },
   "author": "Oscar Vargas y Jorge Vargas",
   "license": "ISC",
