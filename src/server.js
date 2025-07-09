@@ -12,7 +12,6 @@ const corsOptions = {
   origin: 'https://hotel-reservas-frontend-n17k.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
 }
    
 app.use(cors(corsOptions));
