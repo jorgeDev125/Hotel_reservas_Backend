@@ -9,9 +9,9 @@ dotenv.config()
 const app = express();
 
 const corsOptions = {
-  origin: 'https://hotel-reservas-frontend-n17k.vercel.app',
+  origin: ['https://hotel-reservas-frontend-n17k.vercel.app','http://localhost:5173'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }
    
 app.use(cors(corsOptions));
