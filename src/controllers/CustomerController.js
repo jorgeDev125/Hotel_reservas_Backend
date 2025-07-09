@@ -1,34 +1,33 @@
 import { connection } from "../config/db.js";
 
 export class CustomerController {
-
   static createCustomer = async (req, res) => {
     const { cedula, nombre, apellido, email, telefono } = req.body;
-    const query = "INSERT INTO clientes (cedula, nombre, apellido, email, telefono) VALUES (?, ?, ?, ?, ?)";
+    const query =
+      "INSERT INTO clientes (cedula, nombre, apellido, email, telefono) VALUES ($1, $2, $3, $4, $5)";
     const values = [cedula, nombre, apellido, email, telefono];
     try {
-      // Check if the user already exists by cedula
+      // Verifica si ya existe un cliente con la misma cédula
       const userExists = await new Promise((resolve, reject) => {
-        const queryCedula = "SELECT * FROM clientes WHERE cedula = ?";
+        const queryCedula = "SELECT * FROM clientes WHERE cedula = $1";
         connection.query(queryCedula, [cedula], (err, results) => {
           if (err) return reject(err);
-          resolve(results.length > 0);
+          resolve(results.rows.length > 0);
         });
       });
 
       if (userExists) {
-        const error = new Error("El Cliente ya esta registrado");
-        res.status(409).json({ error: error.message });
-        return;
+        return res.status(409).json({ error: "El Cliente ya está registrado" });
       }
 
-      // Insert the new customer into the database
+      // Inserta el nuevo cliente en la base de datos
       await new Promise((resolve, reject) => {
         connection.query(query, values, (err, result) => {
           if (err) return reject(err);
-          resolve(result);
+          resolve(result.rows);
         });
       });
+
       res.status(201).json({ message: "Cliente creado correctamente" });
     } catch (error) {
       res.status(500).json({ error: "Hubo un error al crear el cliente" });
@@ -41,7 +40,7 @@ export class CustomerController {
       const customers = await new Promise((resolve, reject) => {
         connection.query(query, (err, results) => {
           if (err) return reject(err);
-          resolve(results);
+          resolve(results.rows);
         });
       });
       // Check if there are no customers
@@ -58,46 +57,59 @@ export class CustomerController {
 
   static getCustomerByCedula = async (req, res) => {
     const { cedula } = req.params;
-    const query = "SELECT * FROM clientes WHERE cedula = ?";
+    const query = "SELECT * FROM clientes WHERE cedula = $1";
     try {
       const customer = await new Promise((resolve, reject) => {
         connection.query(query, [cedula], (err, results) => {
           if (err) return reject(err);
-          resolve(results);
+          resolve(results.rows);
         });
       });
       // Check if the customer exists
-      if (customer.length === 0) {
-        const error = new Error("El Cliente no existe");
-        res.status(409).json({ error: error.message });
-        return;
+      if (!customer || customer.length === 0) {
+        return res.status(404).json({ error: "El Cliente no existe" });
       }
-      // Return the customer data
-      res.status(200).json(customer);
+      // Return the customer data (puedes devolver solo el primero si la cédula es única)
+      res.status(200).json(customer[0]);
     } catch (error) {
       res.status(500).json({ error: "Hubo un error" });
     }
   };
+
   static updateCustomer = async (req, res) => {
     const { cedula } = req.params;
-    const query = "UPDATE clientes SET cedula = ?, nombre = ?, apellido = ?, email = ?, telefono = ? WHERE cedula = ?";
+    const { cedula: newCedula, nombre, apellido, email, telefono } = req.body;
+
+    const query = `
+                    UPDATE clientes
+                    SET cedula = $1, nombre = $2, apellido = $3, email = $4, telefono = $5
+                    WHERE cedula = $6
+                    RETURNING *;
+                  `;
+
     try {
-      const customer = await new Promise((resolve, reject) => {
-        connection.query(query, [req.body.cedula, req.body.nombre, req.body.apellido, req.body.email, req.body.telefono, cedula], (err, results) => {
-          if (err) return reject(err);
-          resolve(results);
-        });
+      const updatedCustomer = await new Promise((resolve, reject) => {
+        connection.query(
+          query,
+          [newCedula, nombre, apellido, email, telefono, cedula],
+          (err, results) => {
+            if (err) return reject(err);
+            resolve(results.rows);
+          }
+        );
       });
-      // Check if the customer exists
-      if (customer.length === 0) {
-        const error = new Error("El Cliente no existe");
-        res.status(409).json({ error: error.message });
-        return;
+
+      // Si no se actualizó ningún cliente, es porque no existe
+      if (!updatedCustomer || updatedCustomer.length === 0) {
+        return res.status(404).json({ error: "El Cliente no existe" });
       }
-      // Return the customer data
-      res.status(201).json({ message: "Cliente actualizado correctamente" });
+
+      res.status(200).json({
+        message: "Cliente actualizado correctamente",
+        customer: updatedCustomer[0],
+      });
     } catch (error) {
-      res.status(500).json({ error: "Hubo un error al crear el cliente" });
+      res.status(500).json({ error: "Hubo un error al actualizar el cliente" });
     }
   };
 }

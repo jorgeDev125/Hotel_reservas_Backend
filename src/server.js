@@ -4,9 +4,18 @@ import customerRoutes from "./routes/customer.route.js";
 import roomRoutes from "./routes/room.route.js";
 import reservationRoutes from "./routes/reservation.route.js";
 
-
 const app = express();
-app.use(cors());
+
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (origin === process.env.FRONTEND_URL) {
+            callback(null, true)
+        } else {
+            callback(new Error("Error de CORS"))
+        }
+    }
+}
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
