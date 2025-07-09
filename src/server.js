@@ -8,7 +8,7 @@ dotenv.config()
 
 const app = express();
 
-const corsOptions = {
+/* const corsOptions = {
     origin: function (origin, callback) {
         if (origin === process.env.FRONTEND_URL) {
             callback(null, true)
@@ -16,8 +16,8 @@ const corsOptions = {
             callback(new Error("Error de CORS"))
         }
     }
-}
-app.use(cors(corsOptions));
+} */
+app.use(cors(/* corsOptions */));
 
 app.use(express.json());
 
