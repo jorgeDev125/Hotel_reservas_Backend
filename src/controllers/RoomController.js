@@ -77,7 +77,10 @@ export class RoomController {
                     JOIN 
                       estado_habitacion eh ON h.estado_id = eh.id
                     WHERE 
-                      eh.id = $1;
+                      eh.id = $1
+                    ORDER BY
+                      h.numero ASC
+                    ;
                      `;
 
     try {
