@@ -3,21 +3,19 @@ import cors from "cors";
 import customerRoutes from "./routes/customer.route.js";
 import roomRoutes from "./routes/room.route.js";
 import reservationRoutes from "./routes/reservation.route.js";
-/* import dotenv from "dotenv"
-dotenv.config() */
+import dotenv from "dotenv"
+dotenv.config()
 
 const app = express();
 
-/* const corsOptions = {
-    origin: function (origin, callback) {
-        if (origin === process.env.FRONTEND_URL) {
-            callback(null, true)
-        } else {
-            callback(new Error("Error de CORS"))
-        }
-    }
-} */
-app.use(cors(/* corsOptions */));
+const corsOptions = {
+  origin: 'https://hotel-reservas-frontend-n17k.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}
+   
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
